@@ -1,15 +1,15 @@
 # General Simulation Settings
 monthly_investment: 1000
-start_date: '2015-01-01'
+start_date: '2017-01-01'
 end_date: '2025-04-01'
 data_file: 'data/data.csv'
 output_file: 'results/simulation_results.xlsx'
 date_column: 'Date'         # Correct date column name
 price_column: 'Close/Last'  # Column for end-of-period valuation (IMPORTANT: Keep this as the closing price)
-high_column: 'High'         # Column for daily high price (NEW)
-low_column: 'Low'           # Column for daily low price (NEW)
+high_column: 'High'         # Column for daily high price
+low_column: 'Low'           # Column for daily low price
 log_level: 'DEBUG' # INFO Or 'DEBUG' for more detail in log files
-cash_interest_rate_annual: 3.0  # Annual interest rate for uninvested cash (e.g., 3.0 for 3%)
+cash_interest_rate_annual: 4.0  # Annual interest rate for uninvested cash (e.g., 3.0 for 3%)
 
 # Simulation Scenarios (Each key is a scenario name)
 simulations:
