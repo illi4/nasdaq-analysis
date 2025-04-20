@@ -9,6 +9,7 @@ price_column: 'Close/Last'  # Column for end-of-period valuation (IMPORTANT: Kee
 high_column: 'High'         # Column for daily high price (NEW)
 low_column: 'Low'           # Column for daily low price (NEW)
 log_level: 'DEBUG' # INFO Or 'DEBUG' for more detail in log files
+cash_interest_rate_annual: 3.0  # Annual interest rate for uninvested cash (e.g., 3.0 for 3%)
 
 # Simulation Scenarios (Each key is a scenario name)
 simulations:
@@ -49,6 +50,13 @@ simulations:
       10: 30
       15: 30 # Total allocation is 80%, keeping 20% cash reserve implicitly
     # Note: Allocation percentages sum to 80% (less than 100%)
+
+  mostly_shallow_pullbacks:
+    description: "Mostly buy shallow pullbacks"
+    allocations:
+      5: 65
+      10: 20
+      19: 15
 
   cash_only:
     description: "Never invest, for reference"
