@@ -1,0 +1,56 @@
+# General Simulation Settings
+monthly_investment: 1000
+start_date: '2015-01-01'
+end_date: '2025-04-01'
+data_file: 'data/data.csv'
+output_file: 'results/simulation_results.xlsx'
+date_column: 'Date'         # Correct date column name
+price_column: 'Close/Last'  # Column for end-of-period valuation (IMPORTANT: Keep this as the closing price)
+high_column: 'High'         # Column for daily high price (NEW)
+low_column: 'Low'           # Column for daily low price (NEW)
+log_level: 'DEBUG' # INFO Or 'DEBUG' for more detail in log files
+
+# Simulation Scenarios (Each key is a scenario name)
+simulations:
+  buy_the_dips_moderate:
+    description: "Allocate moderately on common pullbacks."
+    # Pullback thresholds (%) and % of available cash to allocate
+    # Format: {pullback_percent: allocation_percent}
+    allocations:
+      5: 30  # Allocate 30% on a 5% pullback
+      10: 40 # Allocate 40% on a 10% pullback
+      15: 30 # Allocate 30% on a 15% pullback
+    # Note: Allocation percentages sum to 100%
+
+  investing_screenshot_advice:
+    description: "Based on internet wisdom"
+    allocations:
+      20: 25
+      40: 25
+
+  buy_significant_dips:
+    description: "Wait for larger pullbacks before allocating."
+    allocations:
+      10: 50
+      20: 50
+    # Note: Allocation percentages sum to 100%
+
+  buy_major_corrections_only:
+    description: "Only allocate during major market corrections, keep cash otherwise."
+    allocations:
+      20: 60
+      30: 40 # Allocate remaining 40% on a very rare 30% pullback
+    # Note: Allocation percentages sum to 100%
+
+  phased_allocation_with_cash:
+    description: "Allocate gradually on pullbacks, always keep some cash."
+    allocations:
+      5: 20
+      10: 30
+      15: 30 # Total allocation is 80%, keeping 20% cash reserve implicitly
+    # Note: Allocation percentages sum to 80% (less than 100%)
+
+  cash_only:
+    description: "Never invest, for reference"
+    allocations:
+      99: 100
