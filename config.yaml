@@ -3,62 +3,70 @@ monthly_investment: 1000
 start_date: '2017-01-01'
 end_date: '2025-04-01'
 data_file: 'data/data.csv'
-output_file: 'results/simulation_results.xlsx'
+output_file: 'results/simulation_results_adjusted.xlsx' # Changed output filename slightly
 date_column: 'Date'         # Correct date column name
-price_column: 'Close/Last'  # Column for end-of-period valuation (IMPORTANT: Keep this as the closing price)
+price_column: 'Close/Last'  # Column for end-of-period valuation
 high_column: 'High'         # Column for daily high price
 low_column: 'Low'           # Column for daily low price
 log_level: 'DEBUG' # INFO Or 'DEBUG' for more detail in log files
 cash_interest_rate_annual: 4.0  # Annual interest rate for uninvested cash (e.g., 3.0 for 3%)
 
 # Simulation Scenarios (Each key is a scenario name)
+# Allocation percentages have been adjusted to simulate investing percentages
+# based on the cash available *before* the first buy trigger since the last peak.
 simulations:
   buy_the_dips_moderate:
-    description: "Allocate moderately on common pullbacks."
-    # Pullback thresholds (%) and % of available cash to allocate
-    # Format: {pullback_percent: allocation_percent}
+    description: "Allocate moderately (Adjusted %: 30, 40, 30 of initial)"
+    # Original: 5: 30, 10: 40, 15: 30
     allocations:
-      5: 30  # Allocate 30% on a 5% pullback
-      10: 40 # Allocate 40% on a 10% pullback
-      15: 30 # Allocate 30% on a 15% pullback
-    # Note: Allocation percentages sum to 100%
+      5: 30.00   # Invest 30% of initial available cash
+      10: 57.14  # Invest 40% of initial available cash (40 / (100-30))
+      15: 100.00 # Invest 30% of initial available cash (30 / (100-30-40))
 
   investing_screenshot_advice:
-    description: "Based on internet wisdom"
+    description: "Based on internet wisdom (Adjusted %: 25, 25 of initial)"
+    # Original: 20: 25, 40: 25
     allocations:
-      20: 25
-      40: 25
+      20: 25.00  # Invest 25% of initial available cash
+      40: 33.33  # Invest 25% of initial available cash (25 / (100-25))
 
   buy_significant_dips:
-    description: "Wait for larger pullbacks before allocating."
+    description: "Wait for larger pullbacks (Adjusted %: 50, 50 of initial)"
+    # Original: 10: 50, 20: 50
     allocations:
-      10: 50
-      20: 50
-    # Note: Allocation percentages sum to 100%
+      10: 50.00  # Invest 50% of initial available cash
+      20: 100.00 # Invest 50% of initial available cash (50 / (100-50))
 
   buy_major_corrections_only:
-    description: "Only allocate during major market corrections, keep cash otherwise."
+    description: "Only major corrections (Adjusted %: 60, 40 of initial)"
+    # Original: 20: 60, 30: 40
     allocations:
-      20: 60
-      30: 40 # Allocate remaining 40% on a very rare 30% pullback
-    # Note: Allocation percentages sum to 100%
+      20: 60.00  # Invest 60% of initial available cash
+      30: 100.00 # Invest 40% of initial available cash (40 / (100-60))
 
   phased_allocation_with_cash:
-    description: "Allocate gradually on pullbacks, always keep some cash."
+    description: "Allocate gradually, keep cash (Adjusted %: 20, 30, 30 of initial)"
+    # Original: 5: 20, 10: 30, 15: 30 (Total 80%)
     allocations:
-      5: 20
-      10: 30
-      15: 30 # Total allocation is 80%, keeping 20% cash reserve implicitly
-    # Note: Allocation percentages sum to 80% (less than 100%)
+      5: 20.00   # Invest 20% of initial available cash
+      10: 37.50  # Invest 30% of initial available cash (30 / (100-20))
+      15: 60.00  # Invest 30% of initial available cash (30 / (100-20-30))
 
   mostly_shallow_pullbacks:
-    description: "Mostly buy shallow pullbacks"
+    description: "Mostly shallow pullbacks (Adjusted %: 65, 20, 15 of initial)"
+    # Original: 3: 65, 5: 20, 7: 15
     allocations:
-      3: 65
-      5: 20
-      7: 15
+      3: 65.00   # Invest 65% of initial available cash
+      5: 57.14   # Invest 20% of initial available cash (20 / (100-65))
+      7: 100.00  # Invest 15% of initial available cash (15 / (100-65-20))
 
   cash_only:
     description: "Never invest, for reference"
+    # Original: 99: 100 (Only one trigger, no adjustment needed)
     allocations:
-      99: 100
+      99: 100.00 # Invest 100% of initial available cash (effectively does nothing if price > 0)
+
+# Note: The adjusted percentages apply to the cash remaining *at the time of the trigger*.
+# They are calculated to approximate the desired investment based on the cash available
+# *before the first trigger* since the last peak.
+# Rounding may slightly affect the exact final amounts invested.
