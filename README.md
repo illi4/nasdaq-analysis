@@ -81,11 +81,12 @@ The `config.yaml` file controls the simulation parameters:
 ```yaml
 simulations:
   buy_the_dips_moderate:
-    description: "Allocate moderately on common pullbacks."
+    description: "Allocate moderately (Adjusted %: 30, 40, 30 of initial)"
+    # Original: 5: 30, 10: 40, 15: 30
     allocations:
-      5: 30  # Invest 30% of cash if market drops 5% from peak
-      10: 40 # Invest 40% of cash if market drops 10% from peak
-      15: 30 # Invest 30% of cash if market drops 15% from peak
+      5: 30.00   # Invest 30% of initial available cash
+      10: 57.14  # Invest 40% of initial available cash (40 / (100-30))
+      15: 100.00 # Invest 30% of initial available cash (30 / (100-30-40))
 ```
 
 ## Data (data/data.csv)
