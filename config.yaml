@@ -1,6 +1,6 @@
 # General Simulation Settings
 monthly_investment: 1000
-start_date: '2017-01-01'
+start_date: '2015-04-01'
 end_date: '2025-04-01'
 data_file: 'data/data.csv'
 output_file: 'results/simulation_results_adjusted.xlsx' # Changed output filename slightly
@@ -8,7 +8,7 @@ date_column: 'Date'         # Correct date column name
 price_column: 'Close/Last'  # Column for end-of-period valuation
 high_column: 'High'         # Column for daily high price
 low_column: 'Low'           # Column for daily low price
-log_level: 'DEBUG' # INFO Or 'DEBUG' for more detail in log files
+log_level: 'DEBUG'   # INFO Or 'DEBUG' for more detail in log files
 cash_interest_rate_annual: 4.0  # Annual interest rate for uninvested cash (e.g., 3.0 for 3%)
 
 # Simulation Scenarios (Each key is a scenario name)
@@ -23,12 +23,13 @@ simulations:
       10: 57.14  # Invest 40% of initial available cash (40 / (100-30))
       15: 100.00 # Invest 30% of initial available cash (30 / (100-30-40))
 
-  investing_screenshot_advice:
-    description: "Based on internet wisdom (Adjusted %: 25, 25 of initial)"
-    # Original: 20: 25, 40: 25
+  internet_advice:
+    description: "Market downturn investment strategy (Starting 90% invested, cash deployments at 20% and 40% drops)"
+    # Original: Always 90% invested, then at 20%: 25% of cash, at 30-40%: 25% of cash
     allocations:
-      20: 25.00  # Invest 25% of initial available cash
-      40: 33.33  # Invest 25% of initial available cash (25 / (100-25))
+      0: 90.00   # Start with 90% invested
+      20: 92.50  # Invest 25% of initial available cash (90 + (25% of 10%))
+      30: 95.00  # Invest another 25% of initial available cash (92.5 + (25% of 10%))
 
   buy_significant_dips:
     description: "Wait for larger pullbacks (Adjusted %: 50, 50 of initial)"
