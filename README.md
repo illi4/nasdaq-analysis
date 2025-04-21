@@ -36,7 +36,7 @@ project-root/
 ├── data/
 │   └── data.csv             # Historical market data file
 ├── results/
-│   └── simulation_results.xlsx # Output Excel file (created after running)
+│   └── simulation_results_adjusted.xlsx # Output Excel file (created after running)
 └── logs/
     ├── <simulation_name>.log   # Log file for each simulation (created after running)
     └── ...
