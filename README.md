@@ -29,7 +29,7 @@ This Python script simulates different investment strategies based on market pul
 ## Folder Structure
 
 ```
-your-project-root/
+project-root/
 ├── investment_simulator.py  # Main Python script
 ├── config.yaml              # Configuration file for simulations
 ├── requirements.txt         # Python dependencies
