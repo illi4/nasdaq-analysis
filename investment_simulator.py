@@ -679,22 +679,7 @@ if __name__ == "__main__":
         data = load_and_prepare_data(config)
         if data is not None:
             results_summary_df = run_simulation(config, data)
-            if isinstance(results_summary_df, pd.DataFrame) and not results_summary_df.empty:
-                logging.info("\n--- Overall Simulation Summary ---")
-                try:
-                    cols_to_print = ['Scenario', 'Final Total Portfolio Value', 'Overall Growth (%)', 'Scenario Annualized Growth (%)', 'Number of Buys', 'Weighted Avg Purchase Price']
-                    cols_to_print = [col for col in cols_to_print if col in results_summary_df.columns]
-                    print(results_summary_df[cols_to_print].to_string(index=False, float_format='{:,.2f}'.format))
-                except Exception as e:
-                    logging.warning(f"Could not print formatted summary: {e}")
-                logging.info(f"Detailed results saved to: {config['output_file']}")
-                logging.info(f"Logs saved in: {os.path.abspath('logs/')}")
-            elif isinstance(results_summary_df, pd.DataFrame) and results_summary_df.empty:
-                 logging.warning("Sim completed, no summary results (all sims may have failed). Check logs.")
-            elif results_summary_df is None:
-                 logging.error("Sim run failed to produce results summary. Check logs.")
-            else:
-                 logging.error("Sim run returned unexpected type.")
+            logging.info("Finished")
         else:
             logging.error("Data loading failed. Abort.")
     else:
