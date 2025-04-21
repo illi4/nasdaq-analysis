@@ -175,6 +175,5 @@ cython_debug/
 # PyPI configuration file
 .pypirc
 
-# Data files
-data/
-results/simulation_results.xlsx
+# Result files
+results/

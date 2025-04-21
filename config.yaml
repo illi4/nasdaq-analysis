@@ -54,9 +54,9 @@ simulations:
   mostly_shallow_pullbacks:
     description: "Mostly buy shallow pullbacks"
     allocations:
-      5: 65
-      10: 20
-      19: 15
+      3: 65
+      5: 20
+      7: 15
 
   cash_only:
     description: "Never invest, for reference"
