@@ -123,8 +123,8 @@ def run_simulation(config, data):
 
     # --- Simulation Setup ---
     monthly_investment = config['monthly_investment']
-    actual_start_date = data.index.min()
-    actual_end_date = data.index.max()
+    actual_start_date = data.index.min() # Actual start date based on data
+    actual_end_date = data.index.max()   # Actual end date based on data
     simulations = config.get('simulations', {})
     output_file = config['output_file']
     log_level_str = config.get('log_level', 'INFO').upper()
@@ -261,13 +261,22 @@ def run_simulation(config, data):
             growth_pct = ((final_port_val / total_capital) - 1.0) if total_capital > 0 else 0.0
 
             summary = {
-                'Scenario': sim_name, 'Description': sim_config.get('description', 'N/A'),
-                'Total Capital Provided': total_capital, 'Total Cash Invested': total_cash_invested,
-                'Final Investment Value': final_inv_val, 'Final Cash Remaining': cash_available,
-                'Final Total Portfolio Value': final_port_val, 'Number of Buys': num_buys,
-                'Average Buy Size ($)': avg_buy, 'Overall Growth (%)': growth_pct,
-                'Scenario Annualized Growth (%)': cagr, 'Total Units Purchased': total_units_held,
-                'Weighted Avg Purchase Price': w_avg_price, 'Final Market Close Price': market_end_price
+                'Scenario': sim_name,
+                'Description': sim_config.get('description', 'N/A'),
+                'Sim Start Date': actual_start_date.strftime('%Y-%m-%d'),
+                'Sim End Date': actual_end_date.strftime('%Y-%m-%d'),
+                'Total Capital Provided': total_capital,
+                'Total Cash Invested': total_cash_invested,
+                'Final Investment Value': final_inv_val,
+                'Final Cash Remaining': cash_available,
+                'Final Total Portfolio Value': final_port_val,
+                'Number of Buys': num_buys,
+                'Average Buy Size ($)': avg_buy,
+                'Overall Growth (%)': growth_pct,
+                'Scenario Annualized Growth (%)': cagr,
+                'Total Units Purchased': total_units_held,
+                'Weighted Avg Purchase Price': w_avg_price,
+                'Final Market Close Price': market_end_price
             }
             all_results_summary.append(summary)
             all_monthly_details[sim_name] = pd.DataFrame(monthly_log)
@@ -353,12 +362,22 @@ def run_simulation(config, data):
         w_avg_price = (total_cash_invested / total_units_held) if total_units_held > 0 else 0
         growth_pct = ((final_port_val / total_capital) - 1.0) if total_capital > 0 else 0.0
         summary = {
-            'Scenario': dca1_sim_name, 'Description': dca1_desc, 'Total Capital Provided': total_capital,
-            'Total Cash Invested': total_cash_invested, 'Final Investment Value': final_inv_val,
-            'Final Cash Remaining': cash_available, 'Final Total Portfolio Value': final_port_val,
-            'Number of Buys': num_buys, 'Average Buy Size ($)': avg_buy, 'Overall Growth (%)': growth_pct,
-            'Scenario Annualized Growth (%)': cagr, 'Total Units Purchased': total_units_held,
-            'Weighted Avg Purchase Price': w_avg_price, 'Final Market Close Price': market_end_price
+            'Scenario': dca1_sim_name,
+            'Description': dca1_desc,
+            'Sim Start Date': actual_start_date.strftime('%Y-%m-%d'),
+            'Sim End Date': actual_end_date.strftime('%Y-%m-%d'),
+            'Total Capital Provided': total_capital,
+            'Total Cash Invested': total_cash_invested,
+            'Final Investment Value': final_inv_val,
+            'Final Cash Remaining': cash_available,
+            'Final Total Portfolio Value': final_port_val,
+            'Number of Buys': num_buys,
+            'Average Buy Size ($)': avg_buy,
+            'Overall Growth (%)': growth_pct,
+            'Scenario Annualized Growth (%)': cagr,
+            'Total Units Purchased': total_units_held,
+            'Weighted Avg Purchase Price': w_avg_price,
+            'Final Market Close Price': market_end_price
         }
         all_results_summary.append(summary); all_monthly_details[dca1_sim_name] = pd.DataFrame(monthly_log)
         all_transaction_details[dca1_sim_name] = pd.DataFrame(all_purchases_log_dca1)
@@ -471,12 +490,22 @@ def run_simulation(config, data):
         w_avg_price = (total_cash_invested / total_units_held) if total_units_held > 0 else 0
         growth_pct = ((final_port_val / total_capital) - 1.0) if total_capital > 0 else 0.0
         summary = {
-            'Scenario': dca2_sim_name, 'Description': dca2_desc, 'Total Capital Provided': total_capital,
-            'Total Cash Invested': total_cash_invested, 'Final Investment Value': final_inv_val,
-            'Final Cash Remaining': cash_available, 'Final Total Portfolio Value': final_port_val,
-            'Number of Buys': num_buys, 'Average Buy Size ($)': avg_buy, 'Overall Growth (%)': growth_pct,
-            'Scenario Annualized Growth (%)': cagr, 'Total Units Purchased': total_units_held,
-            'Weighted Avg Purchase Price': w_avg_price, 'Final Market Close Price': market_end_price
+            'Scenario': dca2_sim_name,
+            'Description': dca2_desc,
+            'Sim Start Date': actual_start_date.strftime('%Y-%m-%d'),
+            'Sim End Date': actual_end_date.strftime('%Y-%m-%d'),
+            'Total Capital Provided': total_capital,
+            'Total Cash Invested': total_cash_invested,
+            'Final Investment Value': final_inv_val,
+            'Final Cash Remaining': cash_available,
+            'Final Total Portfolio Value': final_port_val,
+            'Number of Buys': num_buys,
+            'Average Buy Size ($)': avg_buy,
+            'Overall Growth (%)': growth_pct,
+            'Scenario Annualized Growth (%)': cagr,
+            'Total Units Purchased': total_units_held,
+            'Weighted Avg Purchase Price': w_avg_price,
+            'Final Market Close Price': market_end_price
         }
         all_results_summary.append(summary); all_monthly_details[dca2_sim_name] = pd.DataFrame(monthly_log)
         all_transaction_details[dca2_sim_name] = pd.DataFrame(all_purchases_log_dca2)
@@ -506,13 +535,19 @@ def run_simulation(config, data):
                  summary_df.sort_values(by='Overall Growth (%)', ascending=False, inplace=True)
             else: logging.warning("Cannot sort summary by 'Overall Growth (%)'.")
             summary_sheet_name = 'Summary'
+
+            # *** REORDERED SUMMARY COLUMNS ***
             summary_cols_order = [
-                'Scenario', 'Description', 'Total Capital Provided', 'Total Cash Invested',
+                'Scenario', 'Description', 'Sim Start Date', 'Sim End Date',
+                'Overall Growth (%)', 'Scenario Annualized Growth (%)', # MOVED Growth columns here
+                'Total Capital Provided', 'Total Cash Invested',
                 'Final Investment Value', 'Final Cash Remaining', 'Final Total Portfolio Value',
                 'Number of Buys', 'Average Buy Size ($)', 'Total Units Purchased',
-                'Weighted Avg Purchase Price', 'Overall Growth (%)', 'Scenario Annualized Growth (%)',
+                'Weighted Avg Purchase Price',
                 'Final Market Close Price'
             ]
+            # *** END REORDER ***
+
             summary_cols_order = [col for col in summary_cols_order if col in summary_df.columns]
             summary_df = summary_df[summary_cols_order]
             summary_df.to_excel(writer, sheet_name=summary_sheet_name, index=False)
@@ -522,22 +557,28 @@ def run_simulation(config, data):
             pct_fmt = workbook.add_format({'num_format': '0.00%'})
             unit_fmt = workbook.add_format({'num_format': '#,##0.0000'})
             int_fmt = workbook.add_format({'num_format': '#,##0'})
+            date_fmt = workbook.add_format({'num_format': 'yyyy-mm-dd'})
             hdr_fmt = workbook.add_format({'bold': True, 'text_wrap': True, 'valign': 'top', 'fg_color': '#D7E4BC', 'border': 1, 'align': 'center'})
             col_map = {name: i for i, name in enumerate(summary_df.columns)}
             curr_cols = ['Total Capital Provided', 'Total Cash Invested', 'Final Investment Value', 'Final Cash Remaining', 'Final Total Portfolio Value', 'Average Buy Size ($)', 'Weighted Avg Purchase Price', 'Final Market Close Price']
             unit_cols = ['Total Units Purchased']
-            pct_cols = ['Overall Growth (%)', 'Scenario Annualized Growth (%)']
+            pct_cols = ['Overall Growth (%)', 'Scenario Annualized Growth (%)'] # These remain percentage formatted
             int_cols = ['Number of Buys']
+            date_cols = ['Sim Start Date', 'Sim End Date']
+
             for col in curr_cols:
                 if col in col_map: summary_worksheet.set_column(col_map[col], col_map[col], 18, curr_fmt)
             for col in unit_cols:
                  if col in col_map: summary_worksheet.set_column(col_map[col], col_map[col], 18, unit_fmt)
             for col in pct_cols:
-                 if col in col_map: summary_worksheet.set_column(col_map[col], col_map[col], 15, pct_fmt)
+                 if col in col_map: summary_worksheet.set_column(col_map[col], col_map[col], 15, pct_fmt) # Apply percentage format
             for col in int_cols:
                  if col in col_map: summary_worksheet.set_column(col_map[col], col_map[col], 12, int_fmt)
+            for col in date_cols:
+                 if col in col_map: summary_worksheet.set_column(col_map[col], col_map[col], 12, date_fmt)
             if 'Description' in col_map: summary_worksheet.set_column(col_map['Description'], col_map['Description'], 30)
             if 'Scenario' in col_map: summary_worksheet.set_column(col_map['Scenario'], col_map['Scenario'], 25)
+
             for i, val in enumerate(summary_df.columns.values): summary_worksheet.write(0, i, val, hdr_fmt)
             summary_worksheet.freeze_panes(1, 0)
 
@@ -545,13 +586,11 @@ def run_simulation(config, data):
             logging.info(f"Writing monthly sheets for {len(all_monthly_details)} scenarios...")
             for sim_name, monthly_df in all_monthly_details.items():
                 try:
-                    # *** CORRECTED SHEET NAME TRUNCATION ***
                     safe_base_name = "".join(c for c in sim_name if c.isalnum() or c in (' ', '_', '-'))
                     suffix = "_Monthly"
                     max_base_len = 31 - len(suffix)
                     truncated_base = safe_base_name[:max_base_len]
                     monthly_sheet_name = f"{truncated_base}{suffix}"
-                    # *** END CORRECTION ***
 
                     logging.debug(f"Attempting monthly sheet: {monthly_sheet_name}")
                     if isinstance(monthly_df, pd.DataFrame) and not monthly_df.empty:
@@ -589,13 +628,11 @@ def run_simulation(config, data):
             logging.info(f"Writing transaction sheets for {len(all_transaction_details)} scenarios...")
             for sim_name, transactions_df in all_transaction_details.items():
                 try:
-                    # *** CORRECTED SHEET NAME TRUNCATION ***
                     safe_base_name = "".join(c for c in sim_name if c.isalnum() or c in (' ', '_', '-'))
                     suffix = "_Buys"
                     max_base_len = 31 - len(suffix)
                     truncated_base = safe_base_name[:max_base_len]
                     transactions_sheet_name = f"{truncated_base}{suffix}"
-                    # *** END CORRECTION ***
 
                     logging.debug(f"Attempting transaction sheet: {transactions_sheet_name}")
                     if isinstance(transactions_df, pd.DataFrame) and not transactions_df.empty:
